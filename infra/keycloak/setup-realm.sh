@@ -116,10 +116,11 @@ else
     "emailVerified": true,
     "enabled": true,
     "firstName": "Stéphane",
+    "lastName": "Morel",
     "credentials": [{
       "type": "password",
-      "value": "Change1t!",
-      "temporary": true
+      "value": "Climbetter2026",
+      "temporary": false
     }]
   }'
   echo "User stephane created"
@@ -144,10 +145,11 @@ else
     "emailVerified": true,
     "enabled": true,
     "firstName": "Jacopo",
+    "lastName": "Larcher",
     "credentials": [{
       "type": "password",
-      "value": "Change1t!",
-      "temporary": true
+      "value": "Climbetter2026",
+      "temporary": false
     }]
   }'
   echo "User jacopo created"
