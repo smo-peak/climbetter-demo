@@ -1,0 +1,34 @@
+networks:
+  climbetter:
+    name: climbetter
+    driver: bridge
+
+volumes:
+  traefik_certs:
+  timescaledb_data:
+  redis_data:
+  keycloak_data:
+  grafana_data:
+
+services:
+
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    restart: unless-stopped
+    environment:
+      - DOCKER_API_VERSION=1.41
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /opt/climbetter/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - traefik_certs:/certs
+    networks:
+      - climbetter
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`monitoring.climbetter.com`) && PathPrefix(`/traefik`)"
+      - "traefik.http.routers.traefik-dashboard.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.traefik-dashboard.service=api@internal"
