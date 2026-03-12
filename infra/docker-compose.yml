@@ -1,28 +1,5 @@
 services:
   # ──────────────────────────────────────────────
-  # Traefik v3 — Reverse Proxy + SSL
-  # ──────────────────────────────────────────────
-  traefik:
-    image: traefik:v3.1
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
-      - letsencrypt_data:/letsencrypt
-    networks:
-      - climbetter
-    labels:
-      - "traefik.enable=true"
-      # Dashboard (optional, disable in prod if not needed)
-      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.climbetter.com`)"
-      - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
-      - "traefik.http.routers.traefik-dashboard.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.traefik-dashboard.service=api@internal"
-
-  # ──────────────────────────────────────────────
   # TimescaleDB — PostgreSQL 16 + TimescaleDB
   # ──────────────────────────────────────────────
   timescaledb:
@@ -100,7 +77,6 @@ services:
       - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
 
 volumes:
-  letsencrypt_data:
   timescaledb_data:
   redis_data:
 

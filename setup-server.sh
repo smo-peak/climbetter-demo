@@ -30,19 +30,24 @@ if [ -f infra/.env ]; then
     echo "ATTENTION : infra/.env existe déjà, on ne l'écrase pas."
     echo "Pour régénérer, supprimez-le d'abord : rm /opt/climbetter/infra/.env"
 else
+    PG_PASS=$(openssl rand -base64 32)
+    KC_DB_PASS=$(openssl rand -base64 32)
+    RD_PASS=$(openssl rand -base64 32)
+    KC_ADMIN_PASS=$(openssl rand -base64 32)
+
     cat > infra/.env << EOF
 # --- TimescaleDB ---
 POSTGRES_USER=climbetter
-POSTGRES_PASSWORD=$(openssl rand -base64 32)
+POSTGRES_PASSWORD=${PG_PASS}
 POSTGRES_DB=climbetter
-KEYCLOAK_DB_PASSWORD=$(openssl rand -base64 32)
+KEYCLOAK_DB_PASSWORD=${KC_DB_PASS}
 
 # --- Redis ---
-REDIS_PASSWORD=$(openssl rand -base64 32)
+REDIS_PASSWORD=${RD_PASS}
 
 # --- Keycloak ---
 KEYCLOAK_ADMIN=admin
-KEYCLOAK_ADMIN_PASSWORD=$(openssl rand -base64 32)
+KEYCLOAK_ADMIN_PASSWORD=${KC_ADMIN_PASS}
 KC_HOSTNAME=auth.climbetter.com
 
 # --- Traefik ---
