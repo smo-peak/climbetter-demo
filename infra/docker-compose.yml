@@ -106,5 +106,4 @@ volumes:
 
 networks:
   climbetter:
-    name: climbetter
-    driver: bridge
+    external: true
