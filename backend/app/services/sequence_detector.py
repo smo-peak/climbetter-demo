@@ -118,10 +118,11 @@ def _build_sequence(readings: list, seq_num: int, seq_type: str) -> dict:
         std_f = 0.0
 
     # Rate of Force Development peak (max Δforce/Δtime between consecutive points)
+    # Ignore dt < 1ms to avoid unrealistic spikes from duplicate/near-duplicate timestamps
     rfd_peak = 0.0
     for i in range(1, len(readings)):
         dt = (readings[i]["time"] - readings[i - 1]["time"]).total_seconds()
-        if dt > 0:
+        if dt >= 0.001:
             df = abs(float(readings[i]["force_kg"]) - float(readings[i - 1]["force_kg"]))
             rfd = df / dt
             rfd_peak = max(rfd_peak, rfd)
