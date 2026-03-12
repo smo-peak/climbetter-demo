@@ -98,6 +98,8 @@ services:
     depends_on:
       timescaledb:
         condition: service_healthy
+      keycloak:
+        condition: service_started
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.backend.rule=Host(`api.climbetter.com`)"

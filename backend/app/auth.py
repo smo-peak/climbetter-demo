@@ -51,8 +51,7 @@ async def get_current_user(
             token,
             key,
             algorithms=["RS256"],
-            audience="account",
-            options={"verify_exp": True},
+            options={"verify_exp": True, "verify_aud": False},
         )
         return payload
 
