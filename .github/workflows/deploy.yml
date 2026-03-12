@@ -1,0 +1,25 @@
+name: Deploy to Hetzner
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy ClimBetter
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 178.104.37.106
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /opt/climbetter
+            git pull origin main
+            docker compose -f infra/docker-compose.yml up -d --remove-orphans
+            echo "--- Container status ---"
+            docker compose -f infra/docker-compose.yml ps
