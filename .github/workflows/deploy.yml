@@ -20,6 +20,7 @@ jobs:
           script: |
             cd /opt/climbetter
             git pull origin master
+            docker compose -f infra/docker-compose.yml build --no-cache backend
             docker compose -f infra/docker-compose.yml up -d --remove-orphans
             echo "--- Container status ---"
             docker compose -f infra/docker-compose.yml ps
