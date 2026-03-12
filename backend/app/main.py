@@ -3,24 +3,25 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.database import close_pool, init_pool
-from app.models import create_tables
-from app.routers import health, measurements, sessions
+from app.routers import auth, health, readings, sensors, sessions, users
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    pool = await init_pool()
-    await create_tables(pool)
+    await init_pool()
     yield
     await close_pool()
 
 
 app = FastAPI(
     title="ClimBetter API",
-    version="0.1.0",
+    version="1.0.0",
     lifespan=lifespan,
 )
 
 app.include_router(health.router)
+app.include_router(auth.router)
+app.include_router(users.router)
+app.include_router(sensors.router)
 app.include_router(sessions.router)
-app.include_router(measurements.router)
+app.include_router(readings.router)
