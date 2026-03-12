@@ -26,6 +26,12 @@ def _parse_session(row: dict) -> dict:
     return row
 
 
+def _parse_stats(row: dict) -> dict:
+    if isinstance(row.get("score_breakdown"), str):
+        row["score_breakdown"] = json.loads(row["score_breakdown"])
+    return row
+
+
 @router.post("", response_model=SessionResponse, status_code=201)
 async def create_session(body: SessionCreate, user_id: str = Depends(get_user_id)):
     pool = get_pool()
@@ -105,9 +111,11 @@ async def get_session(session_id: UUID, user_id: str = Depends(get_user_id)):
         session_id,
     )
 
+    stats = _parse_stats(dict(stats_row)) if stats_row else None
+
     return SessionFullResponse(
         session=_parse_session(dict(row)),
-        stats=dict(stats_row) if stats_row else None,
+        stats=stats,
         sequences=[dict(s) for s in seq_rows],
     )
 

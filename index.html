@@ -24,7 +24,7 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  
+
   body {
     font-family: 'Outfit', sans-serif;
     background: var(--bg);
@@ -49,11 +49,110 @@
     letter-spacing: -0.5px;
   }
   .logo span { color: var(--accent); }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
   .battery-info {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     color: var(--text-dim);
   }
+
+  /* Sync indicator */
+  .sync-indicator {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+  }
+  .sync-indicator.visible { display: flex; }
+  .sync-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+  .sync-indicator.syncing .sync-dot { background: var(--accent2); animation: blink 0.5s infinite; }
+  .sync-indicator.error .sync-dot { background: var(--red); }
+
+  /* Login screen */
+  .login-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  .login-screen .login-title {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+  .login-screen .login-subtitle {
+    color: var(--text-dim);
+    font-size: 14px;
+    margin-bottom: 32px;
+    max-width: 300px;
+  }
+  .btn-login {
+    padding: 16px 48px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #000;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+  .btn-login:active { transform: scale(0.96); }
+  .btn-login:disabled { opacity: 0.5; cursor: wait; }
+
+  /* User bar */
+  .user-bar {
+    display: none;
+    padding: 10px 20px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+  }
+  .user-bar.visible { display: flex; }
+  .user-bar .user-name { font-weight: 600; }
+  .user-bar .user-role {
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(255,107,53,0.15);
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 8px;
+  }
+  .btn-logout {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  /* App content (hidden until logged in) */
+  .app-content { display: none; }
+  .app-content.visible { display: block; }
 
   /* Connection Panel */
   .connect-panel {
@@ -226,7 +325,7 @@
 
   /* Sequence History */
   .history {
-    padding: 0 20px 100px;
+    padding: 0 20px 20px;
   }
   .history-title {
     font-size: 13px;
@@ -272,6 +371,63 @@
     font-family: 'JetBrains Mono', monospace;
   }
   .seq-card .seq-stats .lbl { color: var(--text-dim); }
+
+  /* Past sessions */
+  .past-sessions {
+    padding: 0 20px 100px;
+  }
+  .past-sessions-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
+  }
+  .past-sessions-header h3 {
+    font-size: 14px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+  .past-sessions-header .toggle {
+    color: var(--text-dim);
+    font-size: 18px;
+    transition: transform 0.3s;
+  }
+  .past-sessions-header.open .toggle { transform: rotate(180deg); }
+  .past-sessions-list { display: none; }
+  .past-sessions-list.open { display: block; }
+  .past-session-card {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .past-session-card:hover { border-color: var(--accent); }
+  .past-session-card .ps-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .past-session-card .ps-title { font-weight: 700; font-size: 14px; }
+  .past-session-card .ps-date { font-size: 11px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
+  .past-session-card .ps-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .past-session-card .ps-stats .lbl { color: var(--text-dim); }
+  .past-session-card .ps-score {
+    color: var(--accent);
+    font-weight: 700;
+  }
 
   /* Summary Overlay */
   .summary-overlay {
@@ -325,6 +481,19 @@
     color: var(--text-dim);
     text-transform: uppercase;
     letter-spacing: 1px;
+  }
+  .server-badge {
+    display: inline-block;
+    font-size: 10px;
+    color: var(--green);
+    background: rgba(0,230,118,0.1);
+    border: 1px solid rgba(0,230,118,0.3);
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   .summary-stats {
     display: grid;
@@ -407,79 +576,138 @@
     text-align: center;
     font-family: 'JetBrains Mono', monospace;
   }
+
+  /* Debug simulator */
+  .debug-panel {
+    display: none;
+    padding: 8px 20px;
+    text-align: center;
+  }
+  .debug-panel.visible { display: block; }
+  .btn-simulate {
+    padding: 10px 20px;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="logo">Clim<span>Better</span> <small style="font-weight:300;font-size:12px;color:var(--text-dim)">Force Lab</small></div>
-  <div class="battery-info" id="batteryInfo"></div>
-</div>
-
-<!-- Connection -->
-<div class="connect-panel">
-  <button class="connect-btn" id="btnConnectL" onclick="connectSensor('L')">
-    <span class="icon">🤚</span>
-    Main Gauche
-    <div class="status" id="statusL">Non connecté</div>
-  </button>
-  <button class="connect-btn" id="btnConnectR" onclick="connectSensor('R')">
-    <span class="icon">✋</span>
-    Main Droite
-    <div class="status" id="statusR">Non connecté</div>
-  </button>
-</div>
-
-<!-- Live Force -->
-<div class="force-display">
-  <div class="force-total" id="forceTotal">0.0</div>
-  <div class="force-unit">kg (total)</div>
-  <div class="force-individual">
-    <div class="force-sensor">
-      <div class="label">Gauche</div>
-      <div class="value" id="forceL">0.0</div>
+  <div class="header-right">
+    <div class="sync-indicator" id="syncIndicator">
+      <div class="sync-dot"></div>
+      <span id="syncText">Sync OK</span>
     </div>
-    <div class="force-sensor">
-      <div class="label">Droite</div>
-      <div class="value" id="forceR">0.0</div>
-    </div>
+    <div class="battery-info" id="batteryInfo"></div>
   </div>
 </div>
 
-<!-- Session Timer -->
-<div class="session-timer" id="sessionTimer">
-  <span class="dot"></span> SESSION <span id="timerValue">00:00</span>
-</div>
-
-<!-- Controls -->
-<div class="controls" id="controlsDefault">
-  <button class="btn-session btn-tare" onclick="tareAll()">Tare</button>
-  <button class="btn-session btn-start" id="btnStart" onclick="startSession()" disabled>▶ DÉMARRER SÉANCE</button>
-</div>
-<div class="controls" id="controlsRunning" style="display:none">
-  <button class="btn-session btn-end" onclick="endSession()">⏹ FIN SÉANCE</button>
-</div>
-
-<!-- Chart -->
-<div class="chart-container">
-  <canvas id="liveChart"></canvas>
-</div>
-
-<!-- Current Sequence -->
-<div class="current-seq" id="currentSeq">
-  <div class="seq-title" id="seqTitle">⚡ Séquence 1 — Charge</div>
-  <div class="stats-grid">
-    <div class="stat-item"><div class="stat-label">Moy</div><div class="stat-value" id="seqAvg">0.0</div></div>
-    <div class="stat-item"><div class="stat-label">Max</div><div class="stat-value" id="seqMax">0.0</div></div>
-    <div class="stat-item"><div class="stat-label">Min</div><div class="stat-value" id="seqMin">0.0</div></div>
-    <div class="stat-item"><div class="stat-label">Durée</div><div class="stat-value" id="seqDur">0s</div></div>
+<!-- User bar -->
+<div class="user-bar" id="userBar">
+  <div>
+    <span class="user-name" id="userName"></span>
+    <span class="user-role" id="userRole"></span>
   </div>
+  <button class="btn-logout" onclick="logout()">Deconnexion</button>
 </div>
 
-<!-- History -->
-<div class="history">
-  <div class="history-title">Séquences</div>
-  <div id="historyList"></div>
+<!-- Login screen -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-title">Clim<span style="color:var(--accent)">Better</span></div>
+  <div class="login-subtitle">Connecte-toi pour enregistrer et analyser tes seances de force</div>
+  <button class="btn-login" id="btnLogin" onclick="login()">Se connecter</button>
+  <div style="margin-top:16px;font-size:12px;color:var(--text-dim)" id="loginStatus"></div>
+</div>
+
+<!-- App content (hidden until logged in) -->
+<div class="app-content" id="appContent">
+
+  <!-- Connection -->
+  <div class="connect-panel">
+    <button class="connect-btn" id="btnConnectL" onclick="connectSensor('L')">
+      <span class="icon">&#129306;</span>
+      Main Gauche
+      <div class="status" id="statusL">Non connecte</div>
+    </button>
+    <button class="connect-btn" id="btnConnectR" onclick="connectSensor('R')">
+      <span class="icon">&#9995;</span>
+      Main Droite
+      <div class="status" id="statusR">Non connecte</div>
+    </button>
+  </div>
+
+  <!-- Debug simulator (visible only with ?debug=1) -->
+  <div class="debug-panel" id="debugPanel">
+    <button class="btn-simulate" onclick="startSimulation()">Simuler capteur (10s)</button>
+  </div>
+
+  <!-- Live Force -->
+  <div class="force-display">
+    <div class="force-total" id="forceTotal">0.0</div>
+    <div class="force-unit">kg (total)</div>
+    <div class="force-individual">
+      <div class="force-sensor">
+        <div class="label">Gauche</div>
+        <div class="value" id="forceL">0.0</div>
+      </div>
+      <div class="force-sensor">
+        <div class="label">Droite</div>
+        <div class="value" id="forceR">0.0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Session Timer -->
+  <div class="session-timer" id="sessionTimer">
+    <span class="dot"></span> SESSION <span id="timerValue">00:00</span>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls" id="controlsDefault">
+    <button class="btn-session btn-tare" onclick="tareAll()">Tare</button>
+    <button class="btn-session btn-start" id="btnStart" onclick="startSession()" disabled>DEMARRER SEANCE</button>
+  </div>
+  <div class="controls" id="controlsRunning" style="display:none">
+    <button class="btn-session btn-end" onclick="endSession()">FIN SEANCE</button>
+  </div>
+
+  <!-- Chart -->
+  <div class="chart-container">
+    <canvas id="liveChart"></canvas>
+  </div>
+
+  <!-- Current Sequence -->
+  <div class="current-seq" id="currentSeq">
+    <div class="seq-title" id="seqTitle">Sequence 1 -- Charge</div>
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-label">Moy</div><div class="stat-value" id="seqAvg">0.0</div></div>
+      <div class="stat-item"><div class="stat-label">Max</div><div class="stat-value" id="seqMax">0.0</div></div>
+      <div class="stat-item"><div class="stat-label">Min</div><div class="stat-value" id="seqMin">0.0</div></div>
+      <div class="stat-item"><div class="stat-label">Duree</div><div class="stat-value" id="seqDur">0s</div></div>
+    </div>
+  </div>
+
+  <!-- History -->
+  <div class="history">
+    <div class="history-title">Sequences</div>
+    <div id="historyList"></div>
+  </div>
+
+  <!-- Past Sessions -->
+  <div class="past-sessions">
+    <div class="past-sessions-header" id="pastSessionsHeader" onclick="togglePastSessions()">
+      <h3>Mes seances precedentes</h3>
+      <span class="toggle">&#9660;</span>
+    </div>
+    <div class="past-sessions-list" id="pastSessionsList"></div>
+  </div>
 </div>
 
 <!-- Summary Overlay -->
@@ -487,9 +715,299 @@
   <div class="summary-card" id="summaryContent"></div>
 </div>
 
-<div class="status-bar" id="statusBar">En attente de connexion...</div>
+<div class="status-bar" id="statusBar">Chargement...</div>
 
 <script>
+// ===== CONFIG =====
+const API_BASE = 'https://api.climbetter.com/api/v1';
+const KC_BASE = 'https://auth.climbetter.com/realms/climbetter/protocol/openid-connect';
+const KC_CLIENT_ID = 'mobile-app';
+const REDIRECT_URI = window.location.origin + window.location.pathname;
+
+// ===== AUTH STATE (in memory only) =====
+let accessToken = null;
+let refreshToken = null;
+let tokenExpiry = 0;
+let refreshTimer = null;
+let currentUser = null;
+
+// ===== AUTH — PKCE FLOW =====
+function generateCodeVerifier() {
+  const array = new Uint8Array(64);
+  crypto.getRandomValues(array);
+  return base64urlEncode(array);
+}
+
+async function generateCodeChallenge(verifier) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(verifier);
+  const digest = await crypto.subtle.digest('SHA-256', data);
+  return base64urlEncode(new Uint8Array(digest));
+}
+
+function base64urlEncode(bytes) {
+  let str = '';
+  for (const b of bytes) str += String.fromCharCode(b);
+  return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+async function login() {
+  const btnLogin = document.getElementById('btnLogin');
+  btnLogin.disabled = true;
+  document.getElementById('loginStatus').textContent = 'Redirection vers Keycloak...';
+
+  const codeVerifier = generateCodeVerifier();
+  sessionStorage.setItem('pkce_code_verifier', codeVerifier);
+
+  const codeChallenge = await generateCodeChallenge(codeVerifier);
+
+  const params = new URLSearchParams({
+    client_id: KC_CLIENT_ID,
+    redirect_uri: REDIRECT_URI,
+    response_type: 'code',
+    scope: 'openid profile email',
+    code_challenge: codeChallenge,
+    code_challenge_method: 'S256',
+  });
+
+  window.location.href = `${KC_BASE}/auth?${params}`;
+}
+
+async function handleCallback() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  if (!code) return false;
+
+  const codeVerifier = sessionStorage.getItem('pkce_code_verifier');
+  if (!codeVerifier) {
+    console.error('No code_verifier in sessionStorage');
+    return false;
+  }
+  sessionStorage.removeItem('pkce_code_verifier');
+
+  // Clean URL
+  window.history.replaceState({}, document.title, window.location.pathname);
+
+  try {
+    const resp = await fetch(`${KC_BASE}/token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        client_id: KC_CLIENT_ID,
+        code,
+        redirect_uri: REDIRECT_URI,
+        code_verifier: codeVerifier,
+      }),
+    });
+
+    if (!resp.ok) {
+      const err = await resp.text();
+      console.error('Token exchange failed:', err);
+      return false;
+    }
+
+    const data = await resp.json();
+    setTokens(data);
+    return true;
+  } catch (e) {
+    console.error('Token exchange error:', e);
+    return false;
+  }
+}
+
+function setTokens(data) {
+  accessToken = data.access_token;
+  refreshToken = data.refresh_token;
+  tokenExpiry = Date.now() + (data.expires_in - 30) * 1000;
+
+  // Schedule refresh 30s before expiry
+  if (refreshTimer) clearInterval(refreshTimer);
+  refreshTimer = setInterval(doRefreshToken, Math.max((data.expires_in - 30) * 1000, 10000));
+}
+
+async function doRefreshToken() {
+  if (!refreshToken) return;
+
+  try {
+    const resp = await fetch(`${KC_BASE}/token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        grant_type: 'refresh_token',
+        client_id: KC_CLIENT_ID,
+        refresh_token: refreshToken,
+      }),
+    });
+
+    if (!resp.ok) {
+      console.error('Token refresh failed');
+      logout();
+      return;
+    }
+
+    const data = await resp.json();
+    setTokens(data);
+  } catch (e) {
+    console.error('Token refresh error:', e);
+  }
+}
+
+function getAuthHeaders() {
+  return { 'Authorization': `Bearer ${accessToken}` };
+}
+
+function logout() {
+  accessToken = null;
+  refreshToken = null;
+  tokenExpiry = 0;
+  currentUser = null;
+  if (refreshTimer) clearInterval(refreshTimer);
+
+  const logoutUrl = `${KC_BASE}/logout?` + new URLSearchParams({
+    client_id: KC_CLIENT_ID,
+    post_logout_redirect_uri: REDIRECT_URI,
+  });
+  window.location.href = logoutUrl;
+}
+
+function decodeJwtPayload(token) {
+  const parts = token.split('.');
+  if (parts.length !== 3) return null;
+  const payload = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+  return JSON.parse(atob(payload));
+}
+
+// ===== API CLIENT =====
+const api = {
+  async syncUser() {
+    const resp = await fetch(`${API_BASE}/auth/sync`, {
+      method: 'POST',
+      headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+    });
+    if (!resp.ok) throw new Error(`syncUser: ${resp.status}`);
+    return resp.json();
+  },
+
+  async createSession(config) {
+    const resp = await fetch(`${API_BASE}/sessions`, {
+      method: 'POST',
+      headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify(config),
+    });
+    if (!resp.ok) throw new Error(`createSession: ${resp.status}`);
+    return resp.json();
+  },
+
+  async sendReadings(sessionId, readings) {
+    const resp = await fetch(`${API_BASE}/sessions/${sessionId}/readings`, {
+      method: 'POST',
+      headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: sessionId, readings }),
+    });
+    if (!resp.ok) throw new Error(`sendReadings: ${resp.status}`);
+    return resp.json();
+  },
+
+  async endSession(sessionId, data) {
+    const resp = await fetch(`${API_BASE}/sessions/${sessionId}/end`, {
+      method: 'POST',
+      headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!resp.ok) throw new Error(`endSession: ${resp.status}`);
+    return resp.json();
+  },
+
+  async getSession(sessionId) {
+    const resp = await fetch(`${API_BASE}/sessions/${sessionId}`, {
+      headers: getAuthHeaders(),
+    });
+    if (!resp.ok) throw new Error(`getSession: ${resp.status}`);
+    return resp.json();
+  },
+
+  async getSessions(page = 1, pageSize = 10) {
+    const params = new URLSearchParams({ page, page_size: pageSize });
+    const resp = await fetch(`${API_BASE}/sessions?${params}`, {
+      headers: getAuthHeaders(),
+    });
+    if (!resp.ok) throw new Error(`getSessions: ${resp.status}`);
+    return resp.json();
+  },
+};
+
+// ===== READINGS BUFFER =====
+class ReadingsBuffer {
+  constructor(sessionId, flushInterval = 2000) {
+    this.buffer = [];
+    this.sessionId = sessionId;
+    this.flushTimer = null;
+    this.syncStatus = 'idle';
+    this.totalSent = 0;
+    this.totalBuffered = 0;
+    this.flushing = false;
+  }
+
+  add(reading) {
+    this.buffer.push(reading);
+    this.totalBuffered++;
+  }
+
+  start(flushInterval = 2000) {
+    this.flushTimer = setInterval(() => this.flush(), flushInterval);
+    this.updateIndicator();
+  }
+
+  async flush() {
+    if (this.buffer.length === 0 || this.flushing) return;
+    this.flushing = true;
+
+    const batch = this.buffer.splice(0, this.buffer.length);
+    this.syncStatus = 'syncing';
+    this.updateIndicator();
+
+    try {
+      await api.sendReadings(this.sessionId, batch);
+      this.totalSent += batch.length;
+      this.syncStatus = 'idle';
+    } catch (e) {
+      console.error('Flush error:', e);
+      // Put back in buffer for retry
+      this.buffer.unshift(...batch);
+      this.syncStatus = 'error';
+    }
+
+    this.flushing = false;
+    this.updateIndicator();
+  }
+
+  async stop() {
+    if (this.flushTimer) clearInterval(this.flushTimer);
+    this.flushTimer = null;
+    await this.flush();
+  }
+
+  updateIndicator() {
+    const el = document.getElementById('syncIndicator');
+    const text = document.getElementById('syncText');
+    el.classList.remove('syncing', 'error');
+
+    if (this.syncStatus === 'syncing') {
+      el.classList.add('syncing');
+      text.textContent = `Envoi... (${this.buffer.length} en attente)`;
+    } else if (this.syncStatus === 'error') {
+      el.classList.add('error');
+      text.textContent = `Erreur sync (${this.buffer.length} en attente)`;
+    } else {
+      text.textContent = `Sync OK (${this.totalSent} envoyes)`;
+    }
+  }
+}
+
+let readingsBuffer = null;
+let apiSessionId = null;
+
 // ===== TINDEQ BLE CONFIG =====
 const SERVICE_UUID = '7e4e1701-1ea6-40c9-9dcc-13d34ffead57';
 const DATA_UUID    = '7e4e1702-1ea6-40c9-9dcc-13d34ffead57';
@@ -511,11 +1029,13 @@ const ctrls = { L: null, R: null };
 let forceL = 0, forceR = 0;
 let sessionRunning = false;
 let sessionStartTime = null;
+let sessionStartIso = null;
 let timerInterval = null;
+let simulating = false;
 
 // Sequence detection
-const LOAD_THRESHOLD = 2.0; // kg - above this = load
-const DEBOUNCE_MS = 500;    // ms before switching state
+const LOAD_THRESHOLD = 2.0;
+const DEBOUNCE_MS = 500;
 let isLoading = false;
 let lastStateChange = 0;
 let currentSequence = null;
@@ -524,51 +1044,49 @@ let seqCounter = 0;
 
 // Chart data
 const chartData = [];
-const CHART_WINDOW = 300; // ~30s at 10Hz
+const CHART_WINDOW = 300;
 
 // ===== BLE CONNECTION =====
 async function connectSensor(side) {
   const btn = document.getElementById(`btnConnect${side}`);
   const status = document.getElementById(`status${side}`);
-  
+
   try {
     status.textContent = 'Recherche...';
     const device = await navigator.bluetooth.requestDevice({
       filters: [{ namePrefix: 'Progressor' }],
       optionalServices: [SERVICE_UUID]
     });
-    
+
     status.textContent = 'Connexion...';
     const server = await device.gatt.connect();
     const service = await server.getPrimaryService(SERVICE_UUID);
     const dataChar = await service.getCharacteristic(DATA_UUID);
     const ctrlChar = await service.getCharacteristic(CTRL_UUID);
-    
+
     sensors[side] = device;
     clients[side] = { server, service, dataChar, ctrlChar };
     ctrls[side] = ctrlChar;
-    
-    // Start notifications
+
     await dataChar.startNotifications();
     dataChar.addEventListener('characteristicvaluechanged', (e) => handleData(side, e));
-    
-    // Get battery
+
     await ctrlChar.writeValueWithResponse(new Uint8Array([CMD_GET_BATTERY]));
-    
+
     btn.classList.add('connected');
-    status.textContent = `✓ ${device.name}`;
-    
+    status.textContent = `${device.name}`;
+
     device.addEventListener('gattserverdisconnected', () => {
       btn.classList.remove('connected');
-      status.textContent = 'Déconnecté';
+      status.textContent = 'Deconnecte';
       sensors[side] = null;
       clients[side] = null;
       updateStartBtn();
     });
-    
+
     updateStartBtn();
-    setStatus(`${side === 'L' ? 'Gauche' : 'Droite'} connecté: ${device.name}`);
-    
+    setStatus(`${side === 'L' ? 'Gauche' : 'Droite'} connecte: ${device.name}`);
+
   } catch(err) {
     status.textContent = 'Erreur';
     console.error(err);
@@ -577,39 +1095,37 @@ async function connectSensor(side) {
 }
 
 function updateStartBtn() {
-  const anyConnected = sensors.L || sensors.R;
+  const anyConnected = sensors.L || sensors.R || simulating;
   document.getElementById('btnStart').disabled = !anyConnected;
 }
 
 // ===== DATA HANDLING =====
 function handleData(side, event) {
   const data = new Uint8Array(event.target.value.buffer);
-  
+
   if (data[0] === RES_WEIGHT) {
-    // Parse weight samples: 4 bytes float + 4 bytes timestamp per sample
     for (let i = 2; i < data.length; i += 8) {
       if (i + 8 > data.length + 1) break;
       const buf = new ArrayBuffer(4);
       const view = new DataView(buf);
       for (let j = 0; j < 4; j++) view.setUint8(j, data[i + j]);
-      const weight = view.getFloat32(0, true); // little endian
-      
+      const weight = view.getFloat32(0, true);
+
       if (side === 'L') forceL = Math.max(0, weight);
       else forceR = Math.max(0, weight);
     }
     updateDisplay();
-    
+
     if (sessionRunning) {
       processForce();
     }
   } else if (data[0] === RES_CMD) {
-    // Battery response
     if (data.length >= 6) {
       const buf = new ArrayBuffer(4);
       const view = new DataView(buf);
       for (let j = 0; j < 4; j++) view.setUint8(j, data[2 + j]);
       const vdd = view.getUint32(0, true);
-      document.getElementById('batteryInfo').textContent = `🔋 ${vdd}mV`;
+      document.getElementById('batteryInfo').textContent = `${vdd}mV`;
     }
   }
 }
@@ -619,8 +1135,7 @@ function updateDisplay() {
   document.getElementById('forceTotal').textContent = total.toFixed(1);
   document.getElementById('forceL').textContent = forceL.toFixed(1);
   document.getElementById('forceR').textContent = forceR.toFixed(1);
-  
-  // Animate color based on force
+
   const el = document.getElementById('forceTotal');
   if (total > 30) el.style.filter = 'brightness(1.3)';
   else el.style.filter = 'brightness(1)';
@@ -628,6 +1143,39 @@ function updateDisplay() {
 
 // ===== SESSION MANAGEMENT =====
 async function startSession() {
+  const btnStart = document.getElementById('btnStart');
+  btnStart.disabled = true;
+
+  const sensorCount = (sensors.L ? 1 : 0) + (sensors.R ? 1 : 0) + (simulating ? 2 : 0);
+
+  try {
+    // Create session on API
+    sessionStartIso = new Date().toISOString();
+    const session = await api.createSession({
+      client_id: crypto.randomUUID(),
+      type: 'free_session',
+      title: `Seance ${new Date().toLocaleDateString('fr-FR')}`,
+      location_type: 'home',
+      started_at: sessionStartIso,
+      sensor_count: Math.min(sensorCount, 2),
+      force_threshold_kg: LOAD_THRESHOLD,
+      sample_rate_hz: 80,
+    });
+    apiSessionId = session.id;
+
+    // Start readings buffer
+    readingsBuffer = new ReadingsBuffer(apiSessionId);
+    readingsBuffer.start(2000);
+    document.getElementById('syncIndicator').classList.add('visible');
+
+    setStatus(`Seance creee (${apiSessionId.substring(0, 8)}...)`);
+  } catch (e) {
+    console.error('Failed to create session:', e);
+    setStatus(`Erreur creation seance: ${e.message}`);
+    btnStart.disabled = false;
+    return;
+  }
+
   sessionRunning = true;
   sessionStartTime = Date.now();
   sequences = [];
@@ -636,12 +1184,11 @@ async function startSession() {
   isLoading = false;
   chartData.length = 0;
   document.getElementById('historyList').innerHTML = '';
-  
+
   document.getElementById('controlsDefault').style.display = 'none';
   document.getElementById('controlsRunning').style.display = 'flex';
   document.getElementById('sessionTimer').classList.add('active');
-  
-  // Start weight measurement on both sensors
+
   for (const side of ['L', 'R']) {
     if (ctrls[side]) {
       try {
@@ -649,21 +1196,19 @@ async function startSession() {
       } catch(e) { console.error(e); }
     }
   }
-  
+
   timerInterval = setInterval(updateTimer, 1000);
   requestAnimationFrame(drawChart);
-  setStatus('Séance en cours — tirez pour commencer !');
+  setStatus('Seance en cours -- tirez pour commencer !');
 }
 
 async function endSession() {
   sessionRunning = false;
-  
-  // Close current sequence
+
   if (currentSequence && currentSequence.samples.length > 0) {
     finalizeSequence();
   }
-  
-  // Stop measurements
+
   for (const side of ['L', 'R']) {
     if (ctrls[side]) {
       try {
@@ -671,14 +1216,37 @@ async function endSession() {
       } catch(e) { console.error(e); }
     }
   }
-  
+
   clearInterval(timerInterval);
   document.getElementById('controlsDefault').style.display = 'flex';
   document.getElementById('controlsRunning').style.display = 'none';
   document.getElementById('sessionTimer').classList.remove('active');
   document.getElementById('currentSeq').classList.remove('active');
-  
-  showSummary();
+
+  // Stop buffer and flush remaining
+  let serverStats = null;
+  if (readingsBuffer && apiSessionId) {
+    setStatus('Envoi des dernieres donnees...');
+    await readingsBuffer.stop();
+
+    try {
+      const endResult = await api.endSession(apiSessionId, {
+        ended_at: new Date().toISOString(),
+        rating: null,
+        perceived_effort: null,
+      });
+      serverStats = endResult.stats;
+      setStatus('Stats calculees par le serveur');
+    } catch (e) {
+      console.error('End session error:', e);
+      setStatus(`Erreur fin de seance: ${e.message}`);
+    }
+  }
+
+  showSummary(serverStats);
+
+  // Refresh past sessions
+  loadPastSessions();
 }
 
 async function tareAll() {
@@ -689,7 +1257,7 @@ async function tareAll() {
       } catch(e) { console.error(e); }
     }
   }
-  setStatus('Tare effectuée ✓');
+  setStatus('Tare effectuee');
 }
 
 function updateTimer() {
@@ -704,28 +1272,46 @@ function updateTimer() {
 function processForce() {
   const total = forceL + forceR;
   const now = Date.now();
-  
-  // Push to chart
+
   chartData.push({ t: now, v: total, l: forceL, r: forceR });
   if (chartData.length > CHART_WINDOW) chartData.shift();
-  
+
+  // Buffer reading for API
+  if (readingsBuffer) {
+    if (forceL > 0 || sensors.L || simulating) {
+      readingsBuffer.add({
+        time: new Date().toISOString(),
+        sensor_position: 'left',
+        force_kg: parseFloat(forceL.toFixed(2)),
+        rfd_kgs: 0,
+        quality: 1.0,
+      });
+    }
+    if (forceR > 0 || sensors.R || simulating) {
+      readingsBuffer.add({
+        time: new Date().toISOString(),
+        sensor_position: 'right',
+        force_kg: parseFloat(forceR.toFixed(2)),
+        rfd_kgs: 0,
+        quality: 1.0,
+      });
+    }
+  }
+
   const wasLoading = isLoading;
   const shouldBeLoading = total >= LOAD_THRESHOLD;
-  
-  // Debounce state transitions
+
   if (shouldBeLoading !== wasLoading) {
     if (now - lastStateChange > DEBOUNCE_MS) {
       isLoading = shouldBeLoading;
       lastStateChange = now;
-      
+
       if (isLoading) {
-        // Transition: rest → load
         if (currentSequence && !currentSequence.isLoad) {
           finalizeSequence();
         }
         startNewSequence(true);
       } else {
-        // Transition: load → rest
         if (currentSequence && currentSequence.isLoad) {
           finalizeSequence();
         }
@@ -733,8 +1319,7 @@ function processForce() {
       }
     }
   }
-  
-  // Add sample to current sequence
+
   if (currentSequence) {
     currentSequence.samples.push({ t: now, v: total, l: forceL, r: forceR });
     updateCurrentSeqStats();
@@ -749,23 +1334,23 @@ function startNewSequence(isLoad) {
     startTime: Date.now(),
     samples: [],
   };
-  
+
   const el = document.getElementById('currentSeq');
   el.classList.add('active');
   const title = document.getElementById('seqTitle');
-  title.textContent = isLoad 
-    ? `⚡ Séquence ${Math.ceil(seqCounter/2)} — Charge`
-    : `💤 Repos`;
+  title.textContent = isLoad
+    ? `Sequence ${Math.ceil(seqCounter/2)} -- Charge`
+    : `Repos`;
   title.style.color = isLoad ? 'var(--accent)' : 'var(--text-dim)';
 }
 
 function finalizeSequence() {
   if (!currentSequence || currentSequence.samples.length === 0) return;
-  
+
   const seq = currentSequence;
   const values = seq.samples.map(s => s.v);
   const duration = (seq.samples[seq.samples.length-1].t - seq.startTime) / 1000;
-  
+
   seq.stats = {
     avg: values.reduce((a,b) => a+b, 0) / values.length,
     max: Math.max(...values),
@@ -774,7 +1359,7 @@ function finalizeSequence() {
     leftAvg: seq.samples.map(s => s.l).reduce((a,b) => a+b, 0) / seq.samples.length,
     rightAvg: seq.samples.map(s => s.r).reduce((a,b) => a+b, 0) / seq.samples.length,
   };
-  
+
   sequences.push(seq);
   addSequenceCard(seq);
   currentSequence = null;
@@ -784,7 +1369,7 @@ function updateCurrentSeqStats() {
   if (!currentSequence || currentSequence.samples.length === 0) return;
   const values = currentSequence.samples.map(s => s.v);
   const dur = (Date.now() - currentSequence.startTime) / 1000;
-  
+
   document.getElementById('seqAvg').textContent = (values.reduce((a,b)=>a+b,0)/values.length).toFixed(1);
   document.getElementById('seqMax').textContent = Math.max(...values).toFixed(1);
   document.getElementById('seqMin').textContent = Math.min(...values).toFixed(1);
@@ -796,11 +1381,11 @@ function addSequenceCard(seq) {
   const s = seq.stats;
   const card = document.createElement('div');
   card.className = `seq-card ${seq.isLoad ? '' : 'rest'}`;
-  
+
   if (seq.isLoad) {
     card.innerHTML = `
       <div class="seq-header">
-        <span class="seq-name">⚡ Charge #${Math.ceil(seq.id/2)}</span>
+        <span class="seq-name">Charge #${Math.ceil(seq.id/2)}</span>
         <span class="seq-duration">${s.duration.toFixed(1)}s</span>
       </div>
       <div class="seq-stats">
@@ -811,11 +1396,11 @@ function addSequenceCard(seq) {
   } else {
     card.innerHTML = `
       <div class="seq-header">
-        <span class="seq-name">💤 Repos</span>
+        <span class="seq-name">Repos</span>
         <span class="seq-duration">${s.duration.toFixed(1)}s</span>
       </div>`;
   }
-  
+
   document.getElementById('historyList').prepend(card);
 }
 
@@ -824,39 +1409,36 @@ function drawChart() {
   const canvas = document.getElementById('liveChart');
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
-  
+
   canvas.width = canvas.clientWidth * dpr;
   canvas.height = canvas.clientHeight * dpr;
   ctx.scale(dpr, dpr);
-  
+
   const w = canvas.clientWidth;
   const h = canvas.clientHeight;
-  
+
   ctx.clearRect(0, 0, w, h);
-  
+
   if (chartData.length < 2) {
     if (sessionRunning) requestAnimationFrame(drawChart);
     return;
   }
-  
+
   const maxForce = Math.max(20, ...chartData.map(d => d.v)) * 1.1;
-  
-  // Grid lines
+
   ctx.strokeStyle = '#1e1e2e';
   ctx.lineWidth = 1;
   for (let i = 0; i <= 4; i++) {
     const y = (i / 4) * h;
     ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
   }
-  
-  // Threshold line
+
   const threshY = h - (LOAD_THRESHOLD / maxForce) * h;
   ctx.strokeStyle = 'rgba(255,107,53,0.3)';
   ctx.setLineDash([4, 4]);
   ctx.beginPath(); ctx.moveTo(0, threshY); ctx.lineTo(w, threshY); ctx.stroke();
   ctx.setLineDash([]);
-  
-  // Total force line
+
   ctx.beginPath();
   ctx.strokeStyle = '#ff6b35';
   ctx.lineWidth = 2;
@@ -866,8 +1448,7 @@ function drawChart() {
     i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
   });
   ctx.stroke();
-  
-  // Fill
+
   ctx.lineTo(w, h);
   ctx.lineTo(0, h);
   ctx.closePath();
@@ -876,8 +1457,7 @@ function drawChart() {
   grad.addColorStop(1, 'rgba(255,107,53,0)');
   ctx.fillStyle = grad;
   ctx.fill();
-  
-  // Left sensor (thin line)
+
   ctx.beginPath();
   ctx.strokeStyle = 'rgba(24,255,255,0.4)';
   ctx.lineWidth = 1;
@@ -887,8 +1467,7 @@ function drawChart() {
     i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
   });
   ctx.stroke();
-  
-  // Right sensor (thin line)
+
   ctx.beginPath();
   ctx.strokeStyle = 'rgba(179,136,255,0.4)';
   ctx.lineWidth = 1;
@@ -898,48 +1477,68 @@ function drawChart() {
     i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
   });
   ctx.stroke();
-  
+
   if (sessionRunning) requestAnimationFrame(drawChart);
 }
 
 // ===== SUMMARY =====
-function showSummary() {
+function showSummary(serverStats) {
   const loadSeqs = sequences.filter(s => s.isLoad && s.stats);
   const restSeqs = sequences.filter(s => !s.isLoad && s.stats);
-  
-  if (loadSeqs.length === 0) {
-    setStatus('Aucune séquence de charge détectée.');
+
+  if (loadSeqs.length === 0 && !serverStats) {
+    setStatus('Aucune sequence de charge detectee.');
     return;
   }
-  
-  const totalDuration = (Date.now() - sessionStartTime) / 1000;
-  const totalLoadTime = loadSeqs.reduce((a, s) => a + s.stats.duration, 0);
-  const totalRestTime = restSeqs.reduce((a, s) => a + s.stats.duration, 0);
-  const allMaxes = loadSeqs.map(s => s.stats.max);
-  const allAvgs = loadSeqs.map(s => s.stats.avg);
-  const globalMax = Math.max(...allMaxes);
-  const globalAvg = allAvgs.reduce((a,b) => a+b, 0) / allAvgs.length;
-  
-  // Performance score: consistency + endurance
-  const consistency = allAvgs.length > 1 
-    ? 1 - (standardDev(allAvgs) / globalAvg) 
-    : 1;
-  const endurance = loadSeqs.length > 2 
-    ? allAvgs[allAvgs.length-1] / allAvgs[0] 
-    : 1;
-  const perfScore = Math.round(Math.min(100, (consistency * 50 + Math.min(1, endurance) * 50)));
-  
+
+  // Use server stats if available, else local
+  const useServer = !!serverStats;
+
+  let perfScore, globalMax, globalAvg, totalDuration, totalLoadTime, totalRestTime, numSequences;
+
+  if (useServer) {
+    perfScore = Math.round(parseFloat(serverStats.performance_score || 0));
+    globalMax = parseFloat(serverStats.total_max_force_kg || 0);
+    globalAvg = parseFloat(serverStats.total_avg_force_kg || 0);
+    totalDuration = serverStats.total_duration_s || 0;
+    totalLoadTime = serverStats.total_load_time_s || 0;
+    totalRestTime = serverStats.total_rest_time_s || 0;
+    numSequences = serverStats.num_sequences || 0;
+  } else {
+    totalDuration = (Date.now() - sessionStartTime) / 1000;
+    totalLoadTime = loadSeqs.reduce((a, s) => a + s.stats.duration, 0);
+    totalRestTime = restSeqs.reduce((a, s) => a + s.stats.duration, 0);
+    const allMaxes = loadSeqs.map(s => s.stats.max);
+    const allAvgs = loadSeqs.map(s => s.stats.avg);
+    globalMax = Math.max(...allMaxes);
+    globalAvg = allAvgs.reduce((a,b) => a+b, 0) / allAvgs.length;
+    numSequences = loadSeqs.length;
+    const consistency = allAvgs.length > 1 ? 1 - (standardDev(allAvgs) / globalAvg) : 1;
+    const endurance = loadSeqs.length > 2 ? allAvgs[allAvgs.length-1] / allAvgs[0] : 1;
+    perfScore = Math.round(Math.min(100, (consistency * 50 + Math.min(1, endurance) * 50)));
+  }
+
+  const sourceBadge = useServer ? '<span class="server-badge">Stats serveur</span>' : '';
+
   const el = document.getElementById('summaryContent');
   el.innerHTML = `
-    <h2>📊 Résumé Séance</h2>
-    <div class="subtitle">Durée totale: ${formatTime(totalDuration)}</div>
-    
+    <h2>Resume Seance ${sourceBadge}</h2>
+    <div class="subtitle">Duree totale: ${formatTime(totalDuration)}</div>
+
     <div class="perf-score">
       <div class="score-label">Score Performance</div>
       <div class="score-value">${perfScore}</div>
-      <div class="score-label">${perfScore >= 80 ? '🔥 Excellent' : perfScore >= 60 ? '💪 Bon' : '📈 À améliorer'}</div>
+      <div class="score-label">${perfScore >= 80 ? 'Excellent' : perfScore >= 60 ? 'Bon' : 'A ameliorer'}</div>
+      ${useServer && serverStats.score_breakdown ? `
+        <div style="margin-top:12px;font-size:12px;color:var(--text-dim);font-family:'JetBrains Mono',monospace">
+          Force: ${serverStats.score_breakdown.force} |
+          Endurance: ${serverStats.score_breakdown.endurance} |
+          Stabilite: ${serverStats.score_breakdown.stability} |
+          Volume: ${serverStats.score_breakdown.volume}
+        </div>
+      ` : ''}
     </div>
-    
+
     <div class="summary-stats">
       <div class="summary-stat">
         <div class="s-label">Force Max</div>
@@ -958,18 +1557,36 @@ function showSummary() {
         <div class="s-value" style="color:var(--text-dim)">${formatTime(totalRestTime)}</div>
       </div>
       <div class="summary-stat">
-        <div class="s-label">Nb Séquences</div>
-        <div class="s-value">${loadSeqs.length}</div>
+        <div class="s-label">Nb Sequences</div>
+        <div class="s-value">${numSequences}</div>
       </div>
       <div class="summary-stat">
         <div class="s-label">Ratio Charge</div>
-        <div class="s-value">${Math.round(totalLoadTime / (totalLoadTime + totalRestTime) * 100)}%</div>
+        <div class="s-value">${totalLoadTime + totalRestTime > 0 ? Math.round(totalLoadTime / (totalLoadTime + totalRestTime) * 100) : 0}%</div>
       </div>
+      ${useServer && serverStats.left_avg_force_kg ? `
+      <div class="summary-stat">
+        <div class="s-label">Gauche Moy</div>
+        <div class="s-value" style="color:var(--cyan)">${parseFloat(serverStats.left_avg_force_kg).toFixed(1)}<small>kg</small></div>
+      </div>
+      <div class="summary-stat">
+        <div class="s-label">Droite Moy</div>
+        <div class="s-value" style="color:var(--purple)">${parseFloat(serverStats.right_avg_force_kg || 0).toFixed(1)}<small>kg</small></div>
+      </div>
+      ` : ''}
+      ${useServer && serverStats.is_personal_best ? `
+      <div class="summary-stat" style="grid-column:1/-1;background:rgba(255,107,53,0.15);border:1px solid rgba(255,107,53,0.3)">
+        <div class="s-value" style="color:var(--accent);font-size:18px">RECORD PERSONNEL !</div>
+      </div>
+      ` : ''}
     </div>
-    
+
+    ${loadSeqs.length > 0 ? `
     <div class="summary-sequences">
-      <h3>Détail séquences</h3>
-      ${loadSeqs.map((s, i) => `
+      <h3>Detail sequences (local)</h3>
+      ${loadSeqs.map((s, i) => {
+        const allAvgs = loadSeqs.map(sq => sq.stats.avg);
+        return `
         <div class="seq-card" style="border-left-color: ${i === 0 ? 'var(--green)' : allAvgs[i] >= allAvgs[0]*0.9 ? 'var(--accent)' : 'var(--red)'}">
           <div class="seq-header">
             <span class="seq-name">Charge #${i+1}</span>
@@ -980,18 +1597,116 @@ function showSummary() {
             <span><span class="lbl">Max:</span> ${s.stats.max.toFixed(1)}kg</span>
             <span><span class="lbl">G:</span>${s.stats.leftAvg.toFixed(1)} <span class="lbl">D:</span>${s.stats.rightAvg.toFixed(1)}</span>
           </div>
-        </div>
-      `).join('')}
+        </div>`;
+      }).join('')}
     </div>
-    
+    ` : ''}
+
     <button class="btn-close-summary" onclick="closeSummary()">FERMER</button>
   `;
-  
+
   document.getElementById('summaryOverlay').classList.add('active');
+  document.getElementById('syncIndicator').classList.remove('visible');
 }
 
 function closeSummary() {
   document.getElementById('summaryOverlay').classList.remove('active');
+}
+
+// ===== PAST SESSIONS =====
+function togglePastSessions() {
+  const header = document.getElementById('pastSessionsHeader');
+  const list = document.getElementById('pastSessionsList');
+  header.classList.toggle('open');
+  list.classList.toggle('open');
+}
+
+async function loadPastSessions() {
+  try {
+    const data = await api.getSessions(1, 10);
+    const list = document.getElementById('pastSessionsList');
+
+    if (!data.items || data.items.length === 0) {
+      list.innerHTML = '<div style="padding:12px;color:var(--text-dim);font-size:13px">Aucune seance enregistree</div>';
+      return;
+    }
+
+    list.innerHTML = data.items.map(s => {
+      const date = new Date(s.started_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+      const duration = s.duration_s ? formatTime(s.duration_s) : '--';
+      return `
+        <div class="past-session-card" onclick="showPastSession('${s.id}')">
+          <div class="ps-header">
+            <span class="ps-title">${s.title || 'Seance'}</span>
+            <span class="ps-date">${date}</span>
+          </div>
+          <div class="ps-stats">
+            <span><span class="lbl">Duree:</span> ${duration}</span>
+            <span><span class="lbl">Status:</span> ${s.status}</span>
+          </div>
+        </div>`;
+    }).join('');
+  } catch (e) {
+    console.error('Failed to load sessions:', e);
+  }
+}
+
+async function showPastSession(sessionId) {
+  try {
+    const data = await api.getSession(sessionId);
+    const stats = data.stats;
+
+    if (!stats) {
+      setStatus('Pas de stats pour cette seance');
+      return;
+    }
+
+    // Reuse showSummary with server stats but no local sequences
+    sequences = [];
+    sessionStartTime = new Date(data.session.started_at).getTime();
+    showSummary(stats);
+  } catch (e) {
+    console.error('Failed to load session:', e);
+    setStatus(`Erreur: ${e.message}`);
+  }
+}
+
+// ===== SIMULATOR (debug mode) =====
+function startSimulation() {
+  if (simulating) return;
+  simulating = true;
+  updateStartBtn();
+
+  document.getElementById('btnConnectL').classList.add('connected');
+  document.getElementById('statusL').textContent = 'Simulateur';
+  document.getElementById('btnConnectR').classList.add('connected');
+  document.getElementById('statusR').textContent = 'Simulateur';
+
+  let tick = 0;
+  const simInterval = setInterval(() => {
+    if (tick >= 800) { // 10s at 80Hz
+      clearInterval(simInterval);
+      simulating = false;
+      setStatus('Simulation terminee');
+      return;
+    }
+
+    // Simulate load/rest pattern: 4s load, 2s rest, 4s load
+    const tSec = tick / 80;
+    if (tSec < 4 || (tSec >= 6 && tSec < 10)) {
+      // Load phase: sinusoidal 20-40kg
+      forceL = 15 + 5 * Math.sin(tick * 0.1) + Math.random() * 2;
+      forceR = 15 + 5 * Math.cos(tick * 0.08) + Math.random() * 2;
+    } else {
+      // Rest phase
+      forceL = 0.2 + Math.random() * 0.3;
+      forceR = 0.2 + Math.random() * 0.3;
+    }
+
+    updateDisplay();
+    if (sessionRunning) processForce();
+    tick++;
+  }, 12); // ~80Hz
 }
 
 // ===== UTILS =====
@@ -1010,13 +1725,61 @@ function setStatus(msg) {
   document.getElementById('statusBar').textContent = msg;
 }
 
-// Check Web Bluetooth support
-if (!navigator.bluetooth) {
-  setStatus('⚠️ Web Bluetooth non supporté. Utilise Chrome sur Android.');
-  document.querySelectorAll('.connect-btn').forEach(b => b.disabled = true);
-} else {
-  setStatus('Prêt — connecte tes capteurs Tindeq');
+// ===== UI STATE MANAGEMENT =====
+function showLoginScreen() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('appContent').classList.remove('visible');
+  document.getElementById('userBar').classList.remove('visible');
 }
+
+async function showApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+
+  // Sync user with API
+  try {
+    currentUser = await api.syncUser();
+    document.getElementById('userName').textContent = currentUser.display_name || currentUser.email;
+    document.getElementById('userRole').textContent = currentUser.role;
+  } catch (e) {
+    console.error('User sync failed:', e);
+    const payload = decodeJwtPayload(accessToken);
+    document.getElementById('userName').textContent = payload?.name || payload?.preferred_username || 'Utilisateur';
+    document.getElementById('userRole').textContent = '';
+  }
+
+  document.getElementById('userBar').classList.add('visible');
+  document.getElementById('appContent').classList.add('visible');
+
+  // Check BLE support
+  if (!navigator.bluetooth) {
+    setStatus('Web Bluetooth non supporte. Utilise Chrome ou Bluefy.');
+    document.querySelectorAll('.connect-btn').forEach(b => b.disabled = true);
+  } else {
+    setStatus('Pret -- connecte tes capteurs Tindeq');
+  }
+
+  // Show debug panel if ?debug=1
+  if (new URLSearchParams(window.location.search).get('debug') === '1') {
+    document.getElementById('debugPanel').classList.add('visible');
+  }
+
+  // Load past sessions
+  loadPastSessions();
+}
+
+// ===== INIT =====
+(async function init() {
+  // Check for OAuth callback
+  const authenticated = await handleCallback();
+  if (authenticated) {
+    await showApp();
+    return;
+  }
+
+  // Not authenticated
+  showLoginScreen();
+  setStatus('Connecte-toi pour commencer');
+})();
 </script>
 </body>
 </html>

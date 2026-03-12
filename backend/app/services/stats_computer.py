@@ -146,7 +146,11 @@ async def compute_stats(
         force_vs_avg, force_vs_best, is_pb,
     )
 
-    return dict(row) if row else None
+    # asyncpg returns JSONB as string — parse it back to dict
+    result = dict(row) if row else None
+    if result and isinstance(result.get("score_breakdown"), str):
+        result["score_breakdown"] = json.loads(result["score_breakdown"])
+    return result
 
 
 def _avg(seqs: list, field: str) -> Decimal | None:
