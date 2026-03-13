@@ -577,6 +577,216 @@
     font-family: 'JetBrains Mono', monospace;
   }
 
+  /* Onboarding screen */
+  .onboarding-screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px 60px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .onboarding-screen.visible { display: flex; }
+  .onboarding-screen h2 {
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+  .onboarding-screen .onb-subtitle {
+    color: var(--text-dim);
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .onb-warning {
+    background: rgba(255,107,53,0.1);
+    border: 1px solid rgba(255,107,53,0.3);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .onb-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .onb-field label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .onb-field label .req { color: var(--accent); }
+  .onb-field input, .onb-field select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+  }
+  .onb-field input:focus, .onb-field select:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  .onb-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .onb-checkboxes label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--text);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+    cursor: pointer;
+    background: var(--surface);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .onb-checkboxes label:has(input:checked) {
+    border-color: var(--accent);
+    background: rgba(255,107,53,0.1);
+  }
+  .onb-checkboxes input { width: auto; }
+  .onb-radios {
+    display: flex;
+    gap: 8px;
+  }
+  .onb-radios label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--text);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+    cursor: pointer;
+    background: var(--surface);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .onb-radios label:has(input:checked) {
+    border-color: var(--accent);
+    background: rgba(255,107,53,0.1);
+  }
+  .onb-radios input { width: auto; }
+  .btn-onboarding {
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #000;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    transition: all 0.2s;
+  }
+  .btn-onboarding:disabled { opacity: 0.3; cursor: not-allowed; }
+  .btn-onboarding:active:not(:disabled) { transform: scale(0.96); }
+  .onb-privacy {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-align: center;
+    margin-top: 12px;
+  }
+
+  /* Sequence Chrono Timer */
+  .chrono-container {
+    padding: 8px 20px;
+    display: none;
+  }
+  .chrono-container.active { display: block; }
+  .chrono-box {
+    text-align: center;
+    padding: 16px;
+    border-radius: 16px;
+    transition: background 0.3s, border-color 0.3s;
+    border: 1px solid var(--border);
+    position: relative;
+  }
+  .chrono-box.state-load {
+    background: rgba(249,115,22,0.15);
+    border-color: rgba(249,115,22,0.4);
+  }
+  .chrono-box.state-rest {
+    background: rgba(71,85,105,0.3);
+    border-color: rgba(71,85,105,0.5);
+  }
+  .chrono-box.state-inactive {
+    background: transparent;
+    border-color: var(--border);
+  }
+  .chrono-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.1;
+  }
+  @media (min-width: 768px) {
+    .chrono-time { font-size: 64px; }
+  }
+  .chrono-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
+  .chrono-box.state-load .chrono-label { color: var(--accent); }
+  .chrono-box.state-rest .chrono-label { color: var(--blue); }
+  .chrono-box.state-inactive .chrono-label { color: var(--text-dim); }
+  .btn-chrono-reset {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface2);
+    color: var(--text-dim);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .chrono-seq-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 8px;
+    text-align: center;
+  }
+  @keyframes pulse-load {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.25; }
+  }
+  .chrono-box.state-load { animation: pulse-load 2s ease-in-out infinite; }
+
   /* Debug simulator */
   .debug-panel {
     display: none;
@@ -626,6 +836,58 @@
   <div style="margin-top:16px;font-size:12px;color:var(--text-dim)" id="loginStatus"></div>
 </div>
 
+<!-- Onboarding screen -->
+<div class="onboarding-screen" id="onboardingScreen">
+  <h2 id="onbTitle">Bienvenue !</h2>
+  <p class="onb-subtitle">Pour calculer ta performance et te donner des recommandations precises, on a besoin de quelques infos.</p>
+  <div class="onb-warning">Ton poids est essentiel pour le ratio force/poids — LA metrique cle en escalade.</div>
+  <div class="onb-form">
+    <div class="onb-field">
+      <label>Poids (kg) <span class="req">*</span></label>
+      <input type="number" id="onbWeight" step="0.1" min="30" max="200" placeholder="72.5">
+    </div>
+    <div class="onb-field">
+      <label>Taille (cm)</label>
+      <input type="number" id="onbHeight" min="100" max="230" placeholder="178">
+    </div>
+    <div class="onb-field">
+      <label>Niveau <span class="req">*</span></label>
+      <select id="onbLevel">
+        <option value="">-- Choisis ton niveau --</option>
+        <option value="4a">Debutant (&lt; 5a)</option>
+        <option value="5c">Intermediaire (5a - 6a)</option>
+        <option value="6b+">Avance (6a+ - 7a)</option>
+        <option value="7b">Expert (7a+ - 8a)</option>
+        <option value="8a+">Elite (8a+)</option>
+      </select>
+    </div>
+    <div class="onb-field">
+      <label>Style principal</label>
+      <div class="onb-checkboxes">
+        <label><input type="checkbox" value="Bloc"> Bloc</label>
+        <label><input type="checkbox" value="Voie"> Voie</label>
+        <label><input type="checkbox" value="Trad"> Trad</label>
+        <label><input type="checkbox" value="Glace"> Glace</label>
+        <label><input type="checkbox" value="Training"> Training</label>
+      </div>
+    </div>
+    <div class="onb-field">
+      <label>Main dominante</label>
+      <div class="onb-radios">
+        <label><input type="radio" name="dominance" value="left"> Gauche</label>
+        <label><input type="radio" name="dominance" value="right"> Droite</label>
+        <label><input type="radio" name="dominance" value="ambi"> Ambi</label>
+      </div>
+    </div>
+    <div class="onb-field">
+      <label>Annees d'escalade</label>
+      <input type="number" id="onbYears" min="0" max="60" placeholder="5">
+    </div>
+    <button class="btn-onboarding" id="btnOnboarding" onclick="submitOnboarding()" disabled>Commencer a grimper</button>
+    <p class="onb-privacy">Tes donnees sont privees et ne seront jamais partagees. Tu peux les modifier dans ton profil.</p>
+  </div>
+</div>
+
 <!-- App content (hidden until logged in) -->
 <div class="app-content" id="appContent">
 
@@ -666,7 +928,7 @@
 
   <!-- Session Timer -->
   <div class="session-timer" id="sessionTimer">
-    <span class="dot"></span> SESSION <span id="timerValue">00:00</span>
+    <span class="dot"></span> Seance: <span id="timerValue">00:00</span>
   </div>
 
   <!-- Controls -->
@@ -676,6 +938,16 @@
   </div>
   <div class="controls" id="controlsRunning" style="display:none">
     <button class="btn-session btn-end" onclick="endSession()">FIN SEANCE</button>
+  </div>
+
+  <!-- Sequence Chrono Timer -->
+  <div class="chrono-container" id="chronoContainer">
+    <div class="chrono-box state-inactive" id="chronoBox">
+      <button class="btn-chrono-reset" onclick="sequenceTimer.reset()" title="Reset">&#8634;</button>
+      <div class="chrono-time" id="chronoTime">00:00.0</div>
+      <div class="chrono-label" id="chronoLabel">INACTIF</div>
+    </div>
+    <div class="chrono-seq-count" id="chronoSeqCount"></div>
   </div>
 
   <!-- Chart -->
@@ -935,6 +1207,16 @@ const api = {
     if (!resp.ok) throw new Error(`getSessions: ${resp.status}`);
     return resp.json();
   },
+
+  async updateProfile(data) {
+    const resp = await fetch(`${API_BASE}/users/me`, {
+      method: 'PATCH',
+      headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!resp.ok) throw new Error(`updateProfile: ${resp.status}`);
+    return resp.json();
+  },
 };
 
 // ===== READINGS BUFFER =====
@@ -1007,6 +1289,114 @@ class ReadingsBuffer {
 
 let readingsBuffer = null;
 let apiSessionId = null;
+
+// ===== SEQUENCE TIMER (Chrono) =====
+class SequenceTimer {
+  constructor(forceThresholdKg = 2.0, debounceMs = 300) {
+    this.threshold = forceThresholdKg;
+    this.debounceMs = debounceMs;
+    this.state = 'inactive'; // inactive, load, rest
+    this.sequenceStartTime = null;
+    this.lastTransitionTime = 0;
+    this.sessionStartTime = null;
+    this.loadCount = 0;
+    this.restCount = 0;
+    this.animFrame = null;
+  }
+
+  start() {
+    this.sessionStartTime = performance.now();
+    this.state = 'rest';
+    this.sequenceStartTime = performance.now();
+    this.loadCount = 0;
+    this.restCount = 0;
+    this.updateUI();
+    this.startAnimation();
+  }
+
+  updateForce(forceKg) {
+    if (this.state === 'inactive') return;
+    const now = performance.now();
+    const newState = forceKg >= this.threshold ? 'load' : 'rest';
+
+    if (newState !== this.state) {
+      if (now - this.lastTransitionTime < this.debounceMs) return;
+      this.lastTransitionTime = now;
+      this.state = newState;
+      this.sequenceStartTime = now;
+      if (newState === 'load') this.loadCount++;
+      else this.restCount++;
+      this.updateUI();
+    }
+  }
+
+  getSequenceTime() {
+    if (!this.sequenceStartTime) return 0;
+    return (performance.now() - this.sequenceStartTime) / 1000;
+  }
+
+  getSessionTime() {
+    if (!this.sessionStartTime) return 0;
+    return (performance.now() - this.sessionStartTime) / 1000;
+  }
+
+  reset() {
+    this.sequenceStartTime = performance.now();
+  }
+
+  stop() {
+    this.state = 'inactive';
+    if (this.animFrame) {
+      cancelAnimationFrame(this.animFrame);
+      this.animFrame = null;
+    }
+    this.updateUI();
+  }
+
+  startAnimation() {
+    const tick = () => {
+      if (this.state === 'inactive') return;
+      this.renderTime();
+      this.animFrame = requestAnimationFrame(tick);
+    };
+    this.animFrame = requestAnimationFrame(tick);
+  }
+
+  renderTime() {
+    const t = this.getSequenceTime();
+    const m = String(Math.floor(t / 60)).padStart(2, '0');
+    const s = String(Math.floor(t % 60)).padStart(2, '0');
+    const d = String(Math.floor((t % 1) * 10));
+    document.getElementById('chronoTime').textContent = `${m}:${s}.${d}`;
+  }
+
+  updateUI() {
+    const box = document.getElementById('chronoBox');
+    const label = document.getElementById('chronoLabel');
+    const countEl = document.getElementById('chronoSeqCount');
+
+    box.className = 'chrono-box';
+    if (this.state === 'load') {
+      box.classList.add('state-load');
+      label.textContent = 'SOUS TENSION';
+    } else if (this.state === 'rest') {
+      box.classList.add('state-rest');
+      label.textContent = 'RECUPERATION';
+    } else {
+      box.classList.add('state-inactive');
+      label.textContent = 'INACTIF';
+    }
+
+    const total = this.loadCount + this.restCount;
+    if (total > 0) {
+      countEl.textContent = `Seq: ${total} (${this.loadCount}C/${this.restCount}R)`;
+    } else {
+      countEl.textContent = '';
+    }
+  }
+}
+
+const sequenceTimer = new SequenceTimer(LOAD_THRESHOLD, 300);
 
 // ===== TINDEQ BLE CONFIG =====
 const SERVICE_UUID = '7e4e1701-1ea6-40c9-9dcc-13d34ffead57';
@@ -1188,6 +1578,8 @@ async function startSession() {
   document.getElementById('controlsDefault').style.display = 'none';
   document.getElementById('controlsRunning').style.display = 'flex';
   document.getElementById('sessionTimer').classList.add('active');
+  document.getElementById('chronoContainer').classList.add('active');
+  sequenceTimer.start();
 
   for (const side of ['L', 'R']) {
     if (ctrls[side]) {
@@ -1218,9 +1610,11 @@ async function endSession() {
   }
 
   clearInterval(timerInterval);
+  sequenceTimer.stop();
   document.getElementById('controlsDefault').style.display = 'flex';
   document.getElementById('controlsRunning').style.display = 'none';
   document.getElementById('sessionTimer').classList.remove('active');
+  document.getElementById('chronoContainer').classList.remove('active');
   document.getElementById('currentSeq').classList.remove('active');
 
   // Stop buffer and flush remaining
@@ -1285,6 +1679,9 @@ function processForce() {
 
   chartData.push({ t: now, v: total, l: forceL, r: forceR });
   if (chartData.length > CHART_WINDOW) chartData.shift();
+
+  // Feed chrono timer
+  sequenceTimer.updateForce(total);
 
   // Buffer reading for API
   if (readingsBuffer) {
@@ -1545,6 +1942,8 @@ function showSummary(serverStats) {
           Endurance: ${serverStats.score_breakdown.endurance} |
           Stabilite: ${serverStats.score_breakdown.stability} |
           Volume: ${serverStats.score_breakdown.volume}
+          ${serverStats.score_breakdown.force_weight_ratio ? `<br>Ratio F/P: ${serverStats.score_breakdown.force_weight_ratio.toFixed(2)}` : ''}
+          ${serverStats.score_breakdown.algorithm_version ? ` (v${serverStats.score_breakdown.algorithm_version})` : ''}
         </div>
       ` : ''}
     </div>
@@ -1553,6 +1952,7 @@ function showSummary(serverStats) {
       <div class="summary-stat">
         <div class="s-label">Force Max</div>
         <div class="s-value" style="color:var(--accent)">${globalMax.toFixed(1)}<small>kg</small></div>
+        ${currentUser?.weight_kg ? `<div style="font-size:11px;color:var(--text-dim);margin-top:2px">${(globalMax / parseFloat(currentUser.weight_kg)).toFixed(2)} x poids</div>` : ''}
       </div>
       <div class="summary-stat">
         <div class="s-label">Moy. Charges</div>
@@ -1735,28 +2135,62 @@ function setStatus(msg) {
   document.getElementById('statusBar').textContent = msg;
 }
 
+// ===== ONBOARDING =====
+function setupOnboardingValidation() {
+  const weight = document.getElementById('onbWeight');
+  const level = document.getElementById('onbLevel');
+  const btn = document.getElementById('btnOnboarding');
+  const validate = () => {
+    btn.disabled = !(weight.value && parseFloat(weight.value) > 0 && level.value);
+  };
+  weight.addEventListener('input', validate);
+  level.addEventListener('change', validate);
+}
+
+async function submitOnboarding() {
+  const btn = document.getElementById('btnOnboarding');
+  btn.disabled = true;
+  btn.textContent = 'Enregistrement...';
+
+  const data = {};
+  const weight = document.getElementById('onbWeight').value;
+  if (weight) data.weight_kg = parseFloat(weight);
+  const height = document.getElementById('onbHeight').value;
+  if (height) data.height_cm = parseInt(height);
+  const level = document.getElementById('onbLevel').value;
+  if (level) data.climbing_level = level;
+  const years = document.getElementById('onbYears').value;
+  if (years) data.climbing_years = parseInt(years);
+
+  // Styles (checkboxes)
+  const styles = [];
+  document.querySelectorAll('.onb-checkboxes input:checked').forEach(cb => styles.push(cb.value));
+  if (styles.length > 0) data.climbing_styles = styles;
+
+  // Hand dominance
+  const dom = document.querySelector('input[name="dominance"]:checked');
+  if (dom) data.hand_dominance = dom.value;
+
+  try {
+    currentUser = await api.updateProfile(data);
+    document.getElementById('onboardingScreen').classList.remove('visible');
+    showMainApp();
+  } catch (e) {
+    console.error('Profile update failed:', e);
+    btn.textContent = 'Erreur — Reessayer';
+    btn.disabled = false;
+  }
+}
+
 // ===== UI STATE MANAGEMENT =====
 function showLoginScreen() {
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('appContent').classList.remove('visible');
   document.getElementById('userBar').classList.remove('visible');
+  document.getElementById('onboardingScreen').classList.remove('visible');
 }
 
-async function showApp() {
-  document.getElementById('loginScreen').style.display = 'none';
-
-  // Sync user with API
-  try {
-    currentUser = await api.syncUser();
-    document.getElementById('userName').textContent = currentUser.display_name || currentUser.email;
-    document.getElementById('userRole').textContent = currentUser.role;
-  } catch (e) {
-    console.error('User sync failed:', e);
-    const payload = decodeJwtPayload(accessToken);
-    document.getElementById('userName').textContent = payload?.name || payload?.preferred_username || 'Utilisateur';
-    document.getElementById('userRole').textContent = '';
-  }
-
+function showMainApp() {
   document.getElementById('userBar').classList.add('visible');
   document.getElementById('appContent').classList.add('visible');
 
@@ -1775,6 +2209,34 @@ async function showApp() {
 
   // Load past sessions
   loadPastSessions();
+}
+
+async function showApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+
+  // Sync user with API
+  try {
+    currentUser = await api.syncUser();
+    document.getElementById('userName').textContent = currentUser.display_name || currentUser.email;
+    document.getElementById('userRole').textContent = currentUser.role;
+  } catch (e) {
+    console.error('User sync failed:', e);
+    const payload = decodeJwtPayload(accessToken);
+    document.getElementById('userName').textContent = payload?.name || payload?.preferred_username || 'Utilisateur';
+    document.getElementById('userRole').textContent = '';
+  }
+
+  // Check if profile is complete
+  if (currentUser && !currentUser.profile_complete) {
+    const name = currentUser.display_name || currentUser.first_name || '';
+    document.getElementById('onbTitle').textContent = name ? `Bienvenue ${name} !` : 'Bienvenue !';
+    document.getElementById('onboardingScreen').classList.add('visible');
+    setupOnboardingValidation();
+    setStatus('Complete ton profil pour commencer');
+    return;
+  }
+
+  showMainApp();
 }
 
 // ===== INIT =====
