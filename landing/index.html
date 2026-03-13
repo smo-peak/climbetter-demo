@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClimBetter — L'app d'entrainement escalade avec capteurs connectes</title>
+<meta name="description" content="ClimBetter connecte tes capteurs de force Tindeq et Beastmaker, analyse ta progression en escalade, et te guide vers ton prochain niveau. Nee dans les Alpes.">
+<meta name="keywords" content="escalade, climbing, training, force, capteur, Tindeq, Beastmaker, entrainement, progression, coaching">
+<meta property="og:title" content="ClimBetter — Climb Better. Together.">
+<meta property="og:description" content="La plateforme d'entrainement escalade avec capteurs connectes.">
+<meta property="og:url" content="https://climbetter.com">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        roche: { 400: '#FB923C', 500: '#F97316', 600: '#EA580C' },
+        glacier: { 400: '#60A5FA', 500: '#3B82F6' },
+        stone: {
+          50: '#FAFAF9', 100: '#F5F5F4', 200: '#E7E5E3', 300: '#D6D3D1',
+          400: '#A8A29E', 500: '#78716C', 600: '#57534E', 700: '#44403C',
+          800: '#292524', 850: '#1C1917', 900: '#1C1917', 950: '#0C0A09',
+        }
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      }
+    }
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "ClimBetter",
+  "applicationCategory": "SportsApplication",
+  "operatingSystem": "Web",
+  "description": "Plateforme d'entrainement escalade avec capteurs de force connectes",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body class="bg-stone-950 text-stone-50 font-sans antialiased">
+
+<!-- NAV -->
+<nav id="nav" class="fixed top-0 w-full z-50 transition-all duration-300" style="background:transparent;">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#" class="text-xl font-black tracking-tight">Clim<span class="text-roche-500">Better</span></a>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-stone-300">
+      <a href="#features" class="hover:text-white transition">Features</a>
+      <a href="#pricing" class="hover:text-white transition">Pricing</a>
+      <a href="#story" class="hover:text-white transition">L'histoire</a>
+      <a href="https://app.climbetter.com" class="px-4 py-2 bg-roche-500 text-stone-950 rounded-lg font-bold hover:bg-roche-400 transition">Se connecter</a>
+    </div>
+    <button id="menuToggle" class="md:hidden text-stone-300" aria-label="Menu">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden bg-stone-900 border-t border-stone-800 px-6 py-4 space-y-3">
+    <a href="#features" class="block text-sm text-stone-300 hover:text-white">Features</a>
+    <a href="#pricing" class="block text-sm text-stone-300 hover:text-white">Pricing</a>
+    <a href="#story" class="block text-sm text-stone-300 hover:text-white">L'histoire</a>
+    <a href="https://app.climbetter.com" class="block text-center px-4 py-2 bg-roche-500 text-stone-950 rounded-lg font-bold">Se connecter</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 pb-16">
+  <span class="inline-block px-4 py-1.5 rounded-full bg-stone-800 text-stone-300 text-sm font-medium mb-8 border border-stone-700">
+    🏔️ Born in the Alps · Chamonix, France
+  </span>
+  <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-tight mb-6">
+    Climb Better.<br><span class="text-roche-500">Together.</span>
+  </h1>
+  <p class="text-lg sm:text-xl text-stone-400 max-w-2xl mb-10 leading-relaxed">
+    La premiere plateforme d'entrainement qui connecte tes capteurs de force, analyse ta progression, et te guide vers ton prochain niveau.
+  </p>
+  <form id="heroForm" class="flex flex-col sm:flex-row gap-3 w-full max-w-md mb-6">
+    <input type="email" id="heroEmail" placeholder="ton@email.com" required
+      class="flex-1 px-4 py-3 rounded-lg bg-stone-800 border border-stone-700 text-white placeholder-stone-500 focus:outline-none focus:border-roche-500 transition">
+    <button type="submit" class="px-6 py-3 bg-roche-500 text-stone-950 rounded-lg font-bold hover:bg-roche-400 transition whitespace-nowrap">
+      Rejoindre l'early access
+    </button>
+  </form>
+  <div id="heroMsg" class="text-sm text-roche-400 hidden mb-4"></div>
+  <a href="https://smo-peak.github.io/climbetter-demo/" target="_blank" class="text-sm text-stone-400 hover:text-roche-400 transition">
+    Essayer la demo gratuite →
+  </a>
+  <div class="flex gap-8 mt-12 text-stone-500 text-sm font-mono">
+    <span><strong class="text-stone-300">10+</strong> sessions</span>
+    <span><strong class="text-stone-300">7000+</strong> mesures</span>
+    <span><strong class="text-stone-300">2</strong> grimpeurs actifs</span>
+  </div>
+</section>
+
+<!-- PROBLEME -->
+<section class="py-20 px-6 fade-in">
+  <div class="max-w-5xl mx-auto text-center mb-16">
+    <h2 class="text-3xl sm:text-4xl font-black mb-4">Tu grimpes a l'aveugle.</h2>
+    <p class="text-stone-400 max-w-xl mx-auto">Sans donnees, pas de progression mesurable. Sans outil dedie, tu restes au meme niveau.</p>
+  </div>
+  <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-6">
+    <div class="bg-stone-900 border border-stone-800 rounded-2xl p-8 text-center">
+      <div class="text-4xl mb-4">📊</div>
+      <h3 class="text-lg font-bold mb-2">Pas de donnees</h3>
+      <p class="text-sm text-stone-400">Tu ne sais pas si ta force augmente ou stagne. Zéro visibilité sur ta progression.</p>
+    </div>
+    <div class="bg-stone-900 border border-stone-800 rounded-2xl p-8 text-center">
+      <div class="text-4xl mb-4">🎯</div>
+      <h3 class="text-lg font-bold mb-2">Pas de structure</h3>
+      <p class="text-sm text-stone-400">Tu t'entraines au feeling, pas avec un plan base sur tes capacites reelles.</p>
+    </div>
+    <div class="bg-stone-900 border border-stone-800 rounded-2xl p-8 text-center">
+      <div class="text-4xl mb-4">📱</div>
+      <h3 class="text-lg font-bold mb-2">Pas d'outil dedie</h3>
+      <p class="text-sm text-stone-400">Les apps fitness ne comprennent pas l'escalade. Tu merites mieux.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section class="py-20 px-6 fade-in">
+  <div class="max-w-5xl mx-auto text-center mb-16">
+    <h2 class="text-3xl sm:text-4xl font-black mb-4">ClimBetter change la donne.</h2>
+  </div>
+  <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-8">
+    <div class="text-center">
+      <div class="w-16 h-16 rounded-2xl bg-roche-500/10 border border-roche-500/20 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-roche-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      </div>
+      <h3 class="text-xl font-bold mb-2">Mesure</h3>
+      <p class="text-stone-400 text-sm">Connecte tes capteurs Tindeq ou Beastmaker. Force gauche, droite, en temps reel.</p>
+    </div>
+    <div class="text-center">
+      <div class="w-16 h-16 rounded-2xl bg-glacier-500/10 border border-glacier-500/20 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-glacier-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      <h3 class="text-xl font-bold mb-2">Analyse</h3>
+      <p class="text-stone-400 text-sm">Detection automatique des sequences charge/repos. Score de performance. Asymetrie L/R.</p>
+    </div>
+    <div class="text-center">
+      <div class="w-16 h-16 rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+      </div>
+      <h3 class="text-xl font-bold mb-2">Progresse</h3>
+      <p class="text-stone-400 text-sm">Historique complet. Tendances. Dashboard web pour le post-processing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMMENT CA MARCHE -->
+<section class="py-20 px-6 bg-stone-900/50 fade-in">
+  <div class="max-w-5xl mx-auto text-center mb-16">
+    <h2 class="text-3xl sm:text-4xl font-black mb-4">Comment ca marche</h2>
+  </div>
+  <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-12">
+    <div class="text-center">
+      <div class="w-12 h-12 rounded-full bg-roche-500 text-stone-950 font-black text-xl flex items-center justify-center mx-auto mb-4">1</div>
+      <h3 class="font-bold mb-2">Connecte tes capteurs</h3>
+      <p class="text-sm text-stone-400">Appaire tes capteurs BLE en un clic depuis ton navigateur</p>
+    </div>
+    <div class="text-center">
+      <div class="w-12 h-12 rounded-full bg-roche-500 text-stone-950 font-black text-xl flex items-center justify-center mx-auto mb-4">2</div>
+      <h3 class="font-bold mb-2">Fais ta seance</h3>
+      <p class="text-sm text-stone-400">Les donnees s'enregistrent en live, la detection est automatique</p>
+    </div>
+    <div class="text-center">
+      <div class="w-12 h-12 rounded-full bg-roche-500 text-stone-950 font-black text-xl flex items-center justify-center mx-auto mb-4">3</div>
+      <h3 class="font-bold mb-2">Analyse tes resultats</h3>
+      <p class="text-sm text-stone-400">Retrouve tes stats detaillees sur le dashboard web</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="py-20 px-6 fade-in">
+  <div class="max-w-5xl mx-auto text-center mb-16">
+    <h2 class="text-3xl sm:text-4xl font-black mb-4">Tout ce qu'il faut pour progresser</h2>
+  </div>
+  <div class="max-w-5xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="bg-stone-900 border border-stone-800 rounded-xl p-6">
+      <div class="text-2xl mb-3">🤲</div>
+      <h3 class="font-bold mb-1">Dual capteur</h3>
+      <p class="text-sm text-stone-400">Gauche + droite simultanement pour mesurer l'asymetrie</p>
+    </div>
+    <div class="bg-stone-900 border border-stone-800 rounded-xl p-6">
+      <div class="text-2xl mb-3">⚡</div>
+      <h3 class="font-bold mb-1">Detection auto</h3>
+      <p class="text-sm text-stone-400">Sequences charge/repos detectees automatiquement</p>
+    </div>
+    <div class="bg-stone-900 border border-stone-800 rounded-xl p-6">
+      <div class="text-2xl mb-3">🎯</div>
+      <h3 class="font-bold mb-1">Score de perf</h3>
+      <p class="text-sm text-stone-400">Evaluation objective 0-100 basee sur force, endurance, stabilite</p>
+    </div>
+    <div class="bg-stone-900 border border-stone-800 rounded-xl p-6">
+      <div class="text-2xl mb-3">📊</div>
+      <h3 class="font-bold mb-1">Dashboard web</h3>
+      <p class="text-sm text-stone-400">Graphiques interactifs, progression dans le temps</p>
+    </div>
+    <div class="bg-stone-900 border border-stone-800 rounded-xl p-6">
+      <div class="text-2xl mb-3">⚖️</div>
+      <h3 class="font-bold mb-1">Asymetrie L/R</h3>
+      <p class="text-sm text-stone-400">Detecte les desequilibres pour prevenir les blessures</p>
+    </div>
+    <div class="bg-stone-900 border border-stone-800 rounded-xl p-6">
+      <div class="text-2xl mb-3">🔗</div>
+      <h3 class="font-bold mb-1">Multi-marque</h3>
+      <p class="text-sm text-stone-400">Tindeq Progressor, Beastmaker, et plus a venir</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="py-20 px-6 bg-stone-900/50 fade-in">
+  <div class="max-w-5xl mx-auto text-center mb-16">
+    <h2 class="text-3xl sm:text-4xl font-black mb-4">Plans & Tarifs</h2>
+  </div>
+  <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-6">
+    <!-- Free -->
+    <div class="bg-stone-900 border border-stone-700 rounded-2xl p-8 flex flex-col">
+      <h3 class="text-xl font-bold mb-1">Free</h3>
+      <div class="text-3xl font-black font-mono mb-4">0<span class="text-lg text-stone-400">€</span></div>
+      <ul class="text-sm text-stone-400 space-y-2 mb-8 flex-1">
+        <li class="flex gap-2"><span class="text-green-500">✓</span> Sessions illimitees</li>
+        <li class="flex gap-2"><span class="text-green-500">✓</span> 1 capteur</li>
+        <li class="flex gap-2"><span class="text-green-500">✓</span> Historique 30 jours</li>
+        <li class="flex gap-2"><span class="text-stone-600">—</span> Dual capteur</li>
+        <li class="flex gap-2"><span class="text-stone-600">—</span> Analytics avances</li>
+      </ul>
+      <a href="https://app.climbetter.com" class="block text-center px-4 py-3 bg-roche-500 text-stone-950 rounded-lg font-bold hover:bg-roche-400 transition">
+        Commencer gratuitement
+      </a>
+    </div>
+    <!-- Premium -->
+    <div class="bg-stone-900 border-2 border-roche-500 rounded-2xl p-8 flex flex-col relative">
+      <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-roche-500 text-stone-950 text-xs font-bold rounded-full">Bientot</span>
+      <h3 class="text-xl font-bold mb-1">Premium</h3>
+      <div class="text-3xl font-black font-mono mb-4">9.99<span class="text-lg text-stone-400">€/mois</span></div>
+      <ul class="text-sm text-stone-400 space-y-2 mb-8 flex-1">
+        <li class="flex gap-2"><span class="text-green-500">✓</span> Sessions illimitees</li>
+        <li class="flex gap-2"><span class="text-green-500">✓</span> Dual capteur</li>
+        <li class="flex gap-2"><span class="text-green-500">✓</span> Analytics avances</li>
+        <li class="flex gap-2"><span class="text-green-500">✓</span> Historique illimite</li>
+        <li class="flex gap-2"><span class="text-stone-600">—</span> Coaching IA</li>
+      </ul>
+      <button onclick="document.getElementById('ctaEmail').focus()" class="w-full px-4 py-3 border border-roche-500 text-roche-400 rounded-lg font-bold hover:bg-roche-500/10 transition">
+        Rejoindre la waitlist
+      </button>
+    </div>
+    <!-- Elite -->
+    <div class="bg-stone-900 border border-stone-700 rounded-2xl p-8 flex flex-col relative">
+      <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-stone-700 text-stone-300 text-xs font-bold rounded-full">Bientot</span>
+      <h3 class="text-xl font-bold mb-1">Elite</h3>
+      <div class="text-3xl font-black font-mono mb-4">24.99<span class="text-lg text-stone-400">€/mois</span></div>
+      <ul class="text-sm text-stone-400 space-y-2 mb-8 flex-1">
+        <li class="flex gap-2"><span class="text-green-500">✓</span> Tout Premium</li>
+        <li class="flex gap-2"><span class="text-green-500">✓</span> Coaching IA</li>
+        <li class="flex gap-2"><span class="text-green-500">✓</span> Export PDF</li>
+        <li class="flex gap-2"><span class="text-green-500">✓</span> Support prioritaire</li>
+      </ul>
+      <button onclick="document.getElementById('ctaEmail').focus()" class="w-full px-4 py-3 border border-stone-700 text-stone-400 rounded-lg font-bold hover:bg-stone-800 transition">
+        Rejoindre la waitlist
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- BORN IN THE ALPS -->
+<section id="story" class="py-20 px-6 fade-in">
+  <div class="max-w-3xl mx-auto text-center">
+    <h2 class="text-3xl sm:text-4xl font-black mb-8">Born in the Alps</h2>
+    <p class="text-lg text-stone-300 leading-relaxed mb-6">
+      Nee au pied du Mont-Blanc, ClimBetter porte l'ADN de la montagne : authenticite, exigence, depassement.
+      Pas dans un incubateur parisien. Dans les Alpes, la ou l'escalade est nee.
+    </p>
+    <p class="text-stone-500 italic">— Stephane Morel, Fondateur & CEO</p>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="py-20 px-6 bg-gradient-to-b from-stone-950 to-stone-900 fade-in">
+  <div class="max-w-2xl mx-auto text-center">
+    <h2 class="text-3xl sm:text-4xl font-black mb-6">Pret a grimper plus fort ?</h2>
+    <form id="ctaForm" class="flex flex-col sm:flex-row gap-3 w-full max-w-md mx-auto mb-4">
+      <input type="email" id="ctaEmail" placeholder="ton@email.com" required
+        class="flex-1 px-4 py-3 rounded-lg bg-stone-800 border border-stone-700 text-white placeholder-stone-500 focus:outline-none focus:border-roche-500 transition">
+      <button type="submit" class="px-6 py-3 bg-roche-500 text-stone-950 rounded-lg font-bold hover:bg-roche-400 transition whitespace-nowrap">
+        Rejoindre l'early access
+      </button>
+    </form>
+    <div id="ctaMsg" class="text-sm text-roche-400 hidden mb-2"></div>
+    <p class="text-sm text-stone-500">Acces gratuit. Pas de spam. Que de la grimpe.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-stone-800 py-12 px-6">
+  <div class="max-w-6xl mx-auto grid sm:grid-cols-3 gap-8">
+    <div>
+      <span class="text-lg font-black">Clim<span class="text-roche-500">Better</span></span>
+      <p class="text-sm text-stone-500 mt-2">L'entrainement escalade reinvente.</p>
+    </div>
+    <div>
+      <h4 class="text-sm font-bold text-stone-400 uppercase tracking-wide mb-3">Produit</h4>
+      <ul class="space-y-2 text-sm text-stone-500">
+        <li><a href="#features" class="hover:text-white transition">Features</a></li>
+        <li><a href="#pricing" class="hover:text-white transition">Pricing</a></li>
+        <li><a href="https://app.climbetter.com" class="hover:text-white transition">App</a></li>
+        <li><a href="https://smo-peak.github.io/climbetter-demo/" class="hover:text-white transition">Demo</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="text-sm font-bold text-stone-400 uppercase tracking-wide mb-3">Legal</h4>
+      <ul class="space-y-2 text-sm text-stone-500">
+        <li><a href="#" class="hover:text-white transition">CGU</a></li>
+        <li><a href="#" class="hover:text-white transition">Confidentialite</a></li>
+        <li><a href="mailto:contact@climbetter.com" class="hover:text-white transition">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-6xl mx-auto mt-8 pt-6 border-t border-stone-800 text-center text-sm text-stone-600">
+    © 2026 ClimBetter · Born in the Alps 🏔️
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
