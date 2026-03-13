@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import close_pool, init_pool
-from app.routers import auth, health, readings, sensors, sessions, users
+from app.routers import auth, health, readings, sensors, sessions, users, waitlist
 
 
 @asynccontextmanager
@@ -25,6 +25,9 @@ app.add_middleware(
     allow_origins=[
         "https://smo-peak.github.io",
         "https://app.climbetter.com",
+        "https://climbetter.com",
+        "https://www.climbetter.com",
+        "http://localhost:5173",
         "http://localhost:8000",
         "http://localhost:3000",
     ],
@@ -39,3 +42,4 @@ app.include_router(users.router)
 app.include_router(sensors.router)
 app.include_router(sessions.router)
 app.include_router(readings.router)
+app.include_router(waitlist.router)

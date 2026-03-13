@@ -45,4 +45,7 @@ async def sync_user(claims: dict = Depends(get_current_user)):
     result = dict(row)
     if isinstance(result.get("climbing_styles"), str):
         result["climbing_styles"] = json.loads(result["climbing_styles"])
+    result["profile_complete"] = (
+        result.get("weight_kg") is not None and result.get("climbing_level") is not None
+    )
     return result

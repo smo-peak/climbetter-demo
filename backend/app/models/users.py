@@ -35,6 +35,13 @@ class UserCreate(BaseModel):
     last_name: Optional[str] = None
 
 
+class Gender(str, Enum):
+    MALE = "male"
+    FEMALE = "female"
+    OTHER = "other"
+    PREFER_NOT_TO_SAY = "prefer_not_to_say"
+
+
 class UserProfileUpdate(BaseModel):
     display_name: Optional[str] = None
     avatar_url: Optional[str] = None
@@ -45,6 +52,9 @@ class UserProfileUpdate(BaseModel):
     hand_dominance: Optional[HandDominance] = None
     preferred_unit: Optional[UnitSystem] = None
     preferred_lang: Optional[str] = None
+    gender: Optional[Gender] = None
+    birth_year: Optional[int] = None
+    climbing_years: Optional[int] = None
 
 
 class UserResponse(BaseModel):
@@ -64,9 +74,13 @@ class UserResponse(BaseModel):
     hand_dominance: Optional[HandDominance]
     preferred_unit: UnitSystem
     preferred_lang: str
+    gender: Optional[Gender] = None
+    birth_year: Optional[int] = None
+    climbing_years: Optional[int] = None
     total_sessions: int
     total_load_time_s: int
     best_max_force_kg: Decimal
+    profile_complete: bool = False
     created_at: datetime
     last_login_at: Optional[datetime]
 

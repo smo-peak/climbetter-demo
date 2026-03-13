@@ -13,6 +13,9 @@ router = APIRouter(prefix="/api/v1/users", tags=["users"])
 def _parse_user(row: dict) -> dict:
     if isinstance(row.get("climbing_styles"), str):
         row["climbing_styles"] = json.loads(row["climbing_styles"])
+    row["profile_complete"] = (
+        row.get("weight_kg") is not None and row.get("climbing_level") is not None
+    )
     return row
 
 

@@ -72,24 +72,60 @@ async def compute_stats(
             endurance_index = Decimal(str(round(last_avg / first_avg * 100, 2)))
             fatigue_rate = Decimal(str(round((1 - last_avg / first_avg) * 100, 2)))
 
-    # Performance score v1: weighted average
-    force_score = min(float(total_max) / 50 * 100, 100)  # 50kg = 100
+    # Get user weight for force/weight ratio
+    user_weight = await pool.fetchval(
+        "SELECT weight_kg FROM users WHERE id = $1", user_id
+    )
+
     endurance_score = float(endurance_index) if endurance_index else 50
     stability_score = 100 - min(float(_avg(load_seqs, "force_std_kg") or 0) * 10, 100)
     volume_score = min(total_load_time / 300 * 100, 100)  # 5min = 100
 
-    perf_score = Decimal(str(round(
-        force_score * 0.35 + endurance_score * 0.25 +
-        stability_score * 0.20 + volume_score * 0.20,
-        2
-    )))
+    if user_weight and float(user_weight) > 0:
+        # Score v2: force/weight ratio based
+        fw_ratio = float(total_max) / float(user_weight)
+        if fw_ratio < 0.2:
+            fw_ratio_score = 20.0
+        elif fw_ratio < 0.4:
+            fw_ratio_score = 20 + (fw_ratio - 0.2) / 0.2 * 30
+        elif fw_ratio < 0.6:
+            fw_ratio_score = 50 + (fw_ratio - 0.4) / 0.2 * 25
+        elif fw_ratio < 0.8:
+            fw_ratio_score = 75 + (fw_ratio - 0.6) / 0.2 * 15
+        else:
+            fw_ratio_score = 90 + min((fw_ratio - 0.8) / 0.2 * 10, 10)
 
-    score_breakdown = {
-        "force": round(force_score, 1),
-        "endurance": round(endurance_score, 1),
-        "stability": round(stability_score, 1),
-        "volume": round(volume_score, 1),
-    }
+        perf_score = Decimal(str(round(
+            fw_ratio_score * 0.40 + endurance_score * 0.25 +
+            stability_score * 0.20 + volume_score * 0.15,
+            2
+        )))
+
+        score_breakdown = {
+            "force": round(fw_ratio_score, 1),
+            "force_weight_ratio": round(fw_ratio, 2),
+            "endurance": round(endurance_score, 1),
+            "stability": round(stability_score, 1),
+            "volume": round(volume_score, 1),
+            "algorithm_version": "2.0",
+        }
+    else:
+        # Score v1 fallback: raw force based
+        force_score = min(float(total_max) / 50 * 100, 100)  # 50kg = 100
+
+        perf_score = Decimal(str(round(
+            force_score * 0.35 + endurance_score * 0.25 +
+            stability_score * 0.20 + volume_score * 0.20,
+            2
+        )))
+
+        score_breakdown = {
+            "force": round(force_score, 1),
+            "endurance": round(endurance_score, 1),
+            "stability": round(stability_score, 1),
+            "volume": round(volume_score, 1),
+            "algorithm_version": "1.0",
+        }
 
     # Compare with history
     hist_avg = await pool.fetchval(
