@@ -1245,6 +1245,16 @@ async function endSession() {
 
   showSummary(serverStats);
 
+  // Reset session state for next session
+  apiSessionId = null;
+  readingsBuffer = null;
+  sessionStartTime = null;
+  sessionStartIso = null;
+
+  // Re-enable start button if sensors still connected (or simulating)
+  const anyConnected = sensors.L || sensors.R || simulating;
+  document.getElementById('btnStart').disabled = !anyConnected;
+
   // Refresh past sessions
   loadPastSessions();
 }
